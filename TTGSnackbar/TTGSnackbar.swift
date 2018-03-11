@@ -31,6 +31,7 @@ import Darwin
  Snackbar animation types.
  
  - fadeInFadeOut:               Fade in to show and fade out to dismiss.
+ - fadeInFadeOutTop:            Fade in to show and fade out to dismiss a snackbar on top.
  - slideFromBottomToTop:        Slide from the bottom of screen to show and slide up to dismiss.
  - slideFromBottomBackToBottom: Slide from the bottom of screen to show and slide back to bottom to dismiss.
  - slideFromLeftToRight:        Slide from the left to show and slide to rigth to dismiss.
@@ -41,6 +42,7 @@ import Darwin
 
 @objc public enum TTGSnackbarAnimationType: Int {
     case fadeInFadeOut
+    case fadeInFadeOutTop
     case slideFromBottomToTop
     case slideFromBottomBackToBottom
     case slideFromLeftToRight
@@ -598,6 +600,14 @@ public extension TTGSnackbar {
                 self.alpha = 1.0
             }
             
+        case .fadeInFadeOutTop:
+            bottomMarginConstraint?.isActive = false
+            topMarginConstraint?.isActive = true
+            alpha = 0.0
+            animationBlock = {
+                self.alpha = 1.0
+            }
+            
         case .slideFromBottomBackToBottom, .slideFromBottomToTop:
             bottomMarginConstraint?.constant = snackbarHeight
             
@@ -687,7 +697,7 @@ public extension TTGSnackbar {
 
         switch animationType {
             
-        case .fadeInFadeOut:
+        case .fadeInFadeOut, .fadeInFadeOutTop:
             animationBlock = {
                 self.alpha = 0.0
             }
